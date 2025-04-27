@@ -1,0 +1,7 @@
+package com.socialNetwork.repository;
+
+import com.socialNetwork.entity.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CommentRepo extends JpaRepository<Comment,Long> {
+}
