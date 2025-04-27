@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(name = "`like`")
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

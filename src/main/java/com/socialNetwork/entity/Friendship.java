@@ -1,5 +1,6 @@
 package com.socialNetwork.entity;
 
+import com.socialNetwork.enums.FriendshipStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
