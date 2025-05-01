@@ -3,16 +3,14 @@ package com.socialNetwork.controller;
 import com.socialNetwork.dto.UserDto;
 import com.socialNetwork.entity.User;
 import com.socialNetwork.globalException.DuplicateUserException;
+import com.socialNetwork.globalException.UserDeletionException;
 import com.socialNetwork.response.ApiResponse;
 import com.socialNetwork.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -69,5 +67,34 @@ public class UserController {
                             LocalDateTime.now()
                     ));
         }
+
     }
+
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity<ApiResponse<UserDto>> deleteUser(@PathVariable Long userId){
+        try{
+            userService.deleteUser(userId);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ApiResponse<>(true,
+                    "User Deleted Successfully",
+                    null,
+                    LocalDateTime.now()));
+        }catch (UserDeletionException ex){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>
+                    (false,
+                            "An error occurred while deleting user",
+                            null,
+                            LocalDateTime.now()));
+        }catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse<>(
+                            false,
+                            "An error occurred while deleting user",
+                            null,
+                            LocalDateTime.now()
+                    ));
+        }
+    }
+
+
+
 }

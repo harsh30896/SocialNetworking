@@ -6,6 +6,8 @@ import com.socialNetwork.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -22,7 +24,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User deleteUser(User user) {
-        return null;
+    public String deleteUser(Long userId) {
+     Optional<User> existingUser = userRepo.findById(userId);
+     if(!existingUser.isPresent()){
+         return "User not exist with given User Id";
+     }
+      userRepo.deleteById(userId);
+        return "User Deleted";
     }
 }
