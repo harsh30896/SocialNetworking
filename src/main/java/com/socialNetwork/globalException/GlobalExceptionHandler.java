@@ -1,6 +1,7 @@
 package com.socialNetwork.globalException;
 
 import com.socialNetwork.response.ApiResponse;
+import com.socialNetwork.userGlobalExceptions.DuplicateUserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,5 @@ public class GlobalExceptionHandler {
                         LocalDateTime.now()
                 ));
     }
-
 
 }

@@ -1,4 +1,4 @@
-package com.socialNetwork.globalException;
+package com.socialNetwork.userGlobalExceptions;
 
 public class UserDeletionException extends RuntimeException{
     UserDeletionException(String message){

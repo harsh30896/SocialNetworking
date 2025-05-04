@@ -1,5 +1,6 @@
 package com.socialNetwork.serviceImpl;
 
+import com.socialNetwork.dto.UserDto;
 import com.socialNetwork.entity.User;
 import com.socialNetwork.repository.UserRepo;
 import com.socialNetwork.service.UserService;
@@ -19,8 +20,18 @@ public class UserServiceImpl implements UserService {
         return userRepo.save(user);
     }
     @Override
-    public User updateUser(User user) {
-        return null;
+    public Boolean updateUser(Long userId,UserDto userDto) {
+        Optional<User> existingUser = userRepo.findById(userId);
+        User updatedUser = new User();
+        if(!existingUser.isPresent()){
+            return Boolean.FALSE;
+        }
+        updatedUser.setEmail(userDto.getEmail());
+        updatedUser.setUsername(userDto.getUsername());
+        updatedUser.setFirstName(userDto.getFirstName());
+        updatedUser.setLastName(userDto.getLastName());
+        userRepo.save(updatedUser);
+        return Boolean.TRUE;
     }
 
     @Override

@@ -1,6 +1,4 @@
-package com.socialNetwork.globalException;
-
-import java.time.LocalDateTime;
+package com.socialNetwork.userGlobalExceptions;
 
 public class DuplicateUserException extends RuntimeException{
 

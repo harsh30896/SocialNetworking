@@ -2,8 +2,9 @@ package com.socialNetwork.controller;
 
 import com.socialNetwork.dto.UserDto;
 import com.socialNetwork.entity.User;
-import com.socialNetwork.globalException.DuplicateUserException;
-import com.socialNetwork.globalException.UserDeletionException;
+import com.socialNetwork.userGlobalExceptions.DuplicateUserException;
+import com.socialNetwork.userGlobalExceptions.UpdateUserException;
+import com.socialNetwork.userGlobalExceptions.UserDeletionException;
 import com.socialNetwork.response.ApiResponse;
 import com.socialNetwork.service.UserService;
 import jakarta.validation.Valid;
@@ -13,10 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/user")
 public class UserController {
 
     @Autowired
@@ -71,7 +71,7 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser/{userId}")
-    public ResponseEntity<ApiResponse<UserDto>> deleteUser(@PathVariable Long userId){
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long userId){
         try{
             userService.deleteUser(userId);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ApiResponse<>(true,
@@ -95,6 +95,29 @@ public class UserController {
         }
     }
 
-
+    @PatchMapping ("/updateUser/{userId}")
+    public ResponseEntity<ApiResponse<Void>> updateUser(@PathVariable Long userId,UserDto userDto){
+        try{
+            userService.updateUser(userId,userDto);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ApiResponse<>(true,
+                    "User Updated Successfully",
+                    null,
+                    LocalDateTime.now()));
+        }catch (UpdateUserException updateUserException){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>
+                    (false,
+                            "An error occurred while updating user",
+                            null,
+                            LocalDateTime.now()));
+        }catch (Exception ex){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponse<>(
+                        false,
+                        "An error occurred while deleting user",
+                        null,
+                        LocalDateTime.now()
+                ));
+        }
+    }
 
 }
