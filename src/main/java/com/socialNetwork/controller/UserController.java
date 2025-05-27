@@ -2,11 +2,11 @@ package com.socialNetwork.controller;
 
 import com.socialNetwork.dto.UserDto;
 import com.socialNetwork.entity.User;
+import com.socialNetwork.enums.ErrorCode;
 import com.socialNetwork.userGlobalExceptions.DuplicateUserException;
-import com.socialNetwork.userGlobalExceptions.UpdateUserException;
-import com.socialNetwork.userGlobalExceptions.UserDeletionException;
 import com.socialNetwork.response.ApiResponse;
 import com.socialNetwork.service.UserService;
+import com.socialNetwork.userGlobalExceptions.UserNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/createUser")
-    public ResponseEntity<ApiResponse<UserDto>> createUser(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<ApiResponse<UserDto>> createUser(@Valid @RequestBody UserDto userDto){
         try {
             // Convert DTO to entity
             User user = new User();
@@ -42,7 +42,7 @@ public class UserController {
             responseDto.setLastName(createdUser.getLastName());
 
             // Return successful response
-            return ResponseEntity.status(HttpStatus.CREATED)
+                return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ApiResponse<>(
                             true,
                             "User created successfully",
@@ -50,22 +50,9 @@ public class UserController {
                             LocalDateTime.now()
                     ));
         } catch (DuplicateUserException ex) {
-            // Handle specific exceptions
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new ApiResponse<>(
-                            false,
-                            ex.getMessage(),
-                            null,
-                            LocalDateTime.now()
-                    ));
+           throw new DuplicateUserException("User Already Exists",false,null, ErrorCode.DUPLICATE_USER_EXISTS);
         } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse<>(
-                            false,
-                            "An error occurred while creating user",
-                            null,
-                            LocalDateTime.now()
-                    ));
+            throw new RuntimeException("Something went Wrong");
         }
 
     }
@@ -78,12 +65,8 @@ public class UserController {
                     "User Deleted Successfully",
                     null,
                     LocalDateTime.now()));
-        }catch (UserDeletionException ex){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>
-                    (false,
-                            "An error occurred while deleting user",
-                            null,
-                            LocalDateTime.now()));
+        }catch (UserNotFoundException ex){
+            throw new UserNotFoundException("User Not Found",Boolean.FALSE,null);
         }catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse<>(
@@ -103,12 +86,8 @@ public class UserController {
                     "User Updated Successfully",
                     null,
                     LocalDateTime.now()));
-        }catch (UpdateUserException updateUserException){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>
-                    (false,
-                            "An error occurred while updating user",
-                            null,
-                            LocalDateTime.now()));
+        }catch (UserNotFoundException userNotFoundException){
+           throw new UserNotFoundException("User cannot be found",Boolean.FALSE,ErrorCode.USER_CANNOT_UPDATED);
         }catch (Exception ex){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiResponse<>(

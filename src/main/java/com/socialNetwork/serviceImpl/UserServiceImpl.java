@@ -4,6 +4,7 @@ import com.socialNetwork.dto.UserDto;
 import com.socialNetwork.entity.User;
 import com.socialNetwork.repository.UserRepo;
 import com.socialNetwork.service.UserService;
+import com.socialNetwork.userGlobalExceptions.DuplicateUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public class UserServiceImpl implements UserService {
     UserRepo userRepo;
 
     @Override
-    public User createUser(User user) {
+    public User createUser(User user)throws DuplicateUserException {
         return userRepo.save(user);
     }
     @Override

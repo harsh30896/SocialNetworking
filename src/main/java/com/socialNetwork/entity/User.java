@@ -5,69 +5,39 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "users") // Explicit table name to avoid SQL keyword conflicts
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @Column(nullable = false, unique = true, length = 50)
-    private String username;
+    @Column(name = "username", unique = true, nullable = false)
+    private String userName;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
-
-    @Column()
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "first_name", nullable = false, length = 50)
-    private String firstName;
+    private String name;
 
-    @Column(name = "last_name", nullable = false, length = 50)
-    private String lastName;
-
-    @Column(name = "profile_picture_url", length = 255)
-    private String profilePictureUrl;
-
-    @Column(name = "birth_date")
+    @Column(name = "birthday")
     private LocalDate birthDate;
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Friend> friends = new ArrayList<>();
 
-    @PrePersist
-    protected void onCreate() {
-        if (this.createdAt == null) {
-            this.createdAt = LocalDateTime.now();
-        }
-    }
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+    private List<Follower> followers = new ArrayList<>();
 
-    // Relationships
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts;
-
-    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Friendship> followers;
-
-    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Friendship> following;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likes;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Following> following = new ArrayList<>();
 }

@@ -1,6 +1,6 @@
 package com.socialNetwork.enums;
 
-public enum FriendshipStatus {
+public enum RequestStatus {
     PENDING,
     ACCEPTED,
     DECLINED,

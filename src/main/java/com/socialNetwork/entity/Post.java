@@ -1,5 +1,6 @@
 package com.socialNetwork.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,12 +1,16 @@
 package com.socialNetwork.userGlobalExceptions;
 
-public class DuplicateUserException extends RuntimeException{
+import com.socialNetwork.enums.ErrorCode;
+import com.socialNetwork.exception.SocialNetworkException;
 
-    public DuplicateUserException(String message){
-        super(message);
+public class DuplicateUserException extends SocialNetworkException {
+
+    public DuplicateUserException(String message, Boolean status, Object payload, ErrorCode errorCode) {
+        super(message, status, payload, errorCode);
     }
-    public DuplicateUserException(String message,Throwable cause) {
-        super(message, cause);
+
+    public DuplicateUserException(String message, Boolean status, ErrorCode errorCode) {
+        super(message, status, errorCode);
     }
 }
 

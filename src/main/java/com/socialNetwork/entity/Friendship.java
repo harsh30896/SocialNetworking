@@ -1,6 +1,6 @@
 package com.socialNetwork.entity;
 
-import com.socialNetwork.enums.FriendshipStatus;
+import com.socialNetwork.enums.RequestStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +26,8 @@ public class Friendship {
     @JoinColumn(name = "following_id")
     private User following;
 
-    private FriendshipStatus status;
+    private Boolean isFriend;
+    private RequestStatus status;
     private LocalDateTime createdAt;
+
 }

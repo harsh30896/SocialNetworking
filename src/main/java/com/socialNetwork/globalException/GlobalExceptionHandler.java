@@ -16,9 +16,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleDuplicateUser(DuplicateUserException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(new ApiResponse<>(
-                        false,
                         ex.getMessage(),
-                        null,
+                        false,
                         LocalDateTime.now()
                 ));
     }
