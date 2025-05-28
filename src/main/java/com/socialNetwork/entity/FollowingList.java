@@ -14,13 +14,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "Follower")
-public class Follower {
+@Table(name = "FollowingList")
+public class FollowingList {
     @Id
-    @Column(name = "FollowerId")
-    private Long followerId;
+    @Column(name = "FollowingList_Id")
+    private Long followingListId;
 
-    @Column(name = "UserId")
+    @Column(name = "User_Id")
     private Long userId;
 
     @Column(name = "FriendUserName")

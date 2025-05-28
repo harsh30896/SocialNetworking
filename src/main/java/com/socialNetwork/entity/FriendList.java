@@ -10,26 +10,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "User")
-public class User {
+@Getter
+@Setter
+@Table(name = "FriendList")
+public class FriendList {
     @Id
+    @Column(name = "FriendListId")
+    private Long friendListId;
+
     @Column(name = "UserId")
     private Long userId;
 
-    @Column(name = "UserName")
-    private String userName;
+    @Column(name = "Friend_Name")
+    private String friendName;
 
-    @Column(name = "UserPassword")
-    private String userPassword;
-
-    @Column(name = "Name")
-    private String name;
-
-    @Column(name = "Birthday")
-    private String birthday;
-
+    @Column(name = "FriendUserName")
+    private String friendUserName;
 }

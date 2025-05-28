@@ -1,15 +1,10 @@
 package com.socialNetwork.controller;
 
 import com.socialNetwork.dto.PostDto;
-import com.socialNetwork.entity.Post;
 import com.socialNetwork.enums.ErrorCode;
 import com.socialNetwork.postGlobalExceptions.PostServiceException;
-import com.socialNetwork.repository.PostRepo;
 import com.socialNetwork.response.ApiResponse;
-import com.socialNetwork.service.PostService;
-import com.socialNetwork.userGlobalExceptions.DuplicateUserException;
 import com.socialNetwork.userGlobalExceptions.PostNotFoundException;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

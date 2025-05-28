@@ -1,6 +1,5 @@
 package com.socialNetwork.dto;
 
-import com.socialNetwork.entity.Comment;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
