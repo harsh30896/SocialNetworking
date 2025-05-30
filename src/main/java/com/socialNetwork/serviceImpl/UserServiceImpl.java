@@ -29,8 +29,26 @@ public class UserServiceImpl implements UserService {
             newUser.setBirthday(userDto.getBirthDate());
 
             return userRepo.save(newUser);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new UserCreationException("User could not be created due to internal error");
+        }
+    }
+
+    public User updateUser(UserDto userDto){
+
+        userRepo.findByUserName(userDto.getUserName()).ifPresent(user -> {
+            throw new UserCreationException("User cannot be updated with username: "+userDto.getUserName());
+        });
+        try{
+            User updateUser=new User();
+            updateUser.setName(userDto.getName());
+            updateUser.setBirthday(userDto.getBirthDate());
+            updateUser.setUserPassword(userDto.getPassword());
+            return userRepo.save(updateUser);
+        }
+        catch (Exception ex) {
+            throw new UserCreationException("User cannot be updated with given UserName " + userDto.getUserName() + " Internal Serval Error");
         }
     }
 }

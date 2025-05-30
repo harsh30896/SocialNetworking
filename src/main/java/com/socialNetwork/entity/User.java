@@ -1,13 +1,12 @@
 package com.socialNetwork.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -16,20 +15,22 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "User")
 public class User {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UserId")
     private Long userId;
 
-    @Column(name = "UserName")
+    @Column(name = "UserName", nullable = false, unique = true)
     private String userName;
 
-    @Column(name = "UserPassword")
+    @Column(name = "UserPassword", nullable = false)
     private String userPassword;
 
-    @Column(name = "Name")
+    @Column(name = "Name", nullable = false)
     private String name;
 
     @Column(name = "Birthday")
-    private String birthday;
+    private LocalDate birthday;
 
 }

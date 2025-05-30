@@ -5,5 +5,7 @@ import com.socialNetwork.entity.User;
 
 public interface UserService {
     User addUser(UserDto userDto);
+
+    User updateUser(UserDto userDto);
 }
 
