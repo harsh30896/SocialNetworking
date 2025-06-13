@@ -24,13 +24,17 @@ public class UserController {
         @PostMapping("/addUser")
         public ResponseEntity<ApiResponse<User>> addUserAccount(@RequestBody @Valid UserDto userDto) {
                 User createdUser = userService.addUser(userDto);
+
                 ApiResponse<User> response = new ApiResponse<>(true, "User created successfully", createdUser, LocalDateTime.now());
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
 
+        @PutMapping("/updateUser")
         public ResponseEntity<ApiResponse<?>> updateUser(@RequestBody @Valid UserDto userDto){
                 User updatedUser = userService.updateUser(userDto);
                 ApiResponse<User> response = new ApiResponse<>(true,"User updated successfully",updatedUser,LocalDateTime.now());
                 return new ResponseEntity<>(response,HttpStatus.CREATED);
         }
+
+
 }

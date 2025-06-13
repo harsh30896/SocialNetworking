@@ -35,20 +35,25 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User updateUser(UserDto userDto){
+    public User updateUser(UserDto userDto) {
+        // 1. Fetch existing user by ID
+        User existingUser = userRepo.findById(userDto.getUserId())
+                .orElseThrow(() -> new UserCreationException("User not found with ID: " + userDto.getUserId()));
 
-        userRepo.findByUserName(userDto.getUserName()).ifPresent(user -> {
-            throw new UserCreationException("User cannot be updated with username: "+userDto.getUserName());
-        });
-        try{
-            User updateUser=new User();
-            updateUser.setName(userDto.getName());
-            updateUser.setBirthday(userDto.getBirthDate());
-            updateUser.setUserPassword(userDto.getPassword());
-            return userRepo.save(updateUser);
+        // 2. Check if the username is being changed to something that already exists
+        if (!existingUser.getUserName().equals(userDto.getUserName())) {
+            userRepo.findByUserName(userDto.getUserName()).ifPresent(user -> {
+                throw new UserCreationException("User cannot be updated with username: " + userDto.getUserName());
+            });
+            existingUser.setUserName(userDto.getUserName());
         }
-        catch (Exception ex) {
-            throw new UserCreationException("User cannot be updated with given UserName " + userDto.getUserName() + " Internal Serval Error");
-        }
+
+        // 3. Update fields
+        existingUser.setName(userDto.getName());
+        existingUser.setBirthday(userDto.getBirthDate());
+        existingUser.setUserPassword(userDto.getPassword());
+
+        return userRepo.save(existingUser);
     }
+
 }
