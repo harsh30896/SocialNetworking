@@ -1,7 +1,8 @@
 package com.socialNetwork.service;
 
+import com.socialNetwork.dto.FriendsDto;
 import com.socialNetwork.entity.Friends;
 
 public interface FriendsService {
-    Friends addFriends(Friends friends);
+    Friends addFriends(FriendsDto friendsDto);
 }

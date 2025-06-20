@@ -20,6 +20,9 @@ public class GlobalExceptionHandler {
             case "USER_ALREADY_EXISTS" -> HttpStatus.CONFLICT;
             case "USER_NOT_FOUND" -> HttpStatus.NOT_FOUND;
             case "FRIENDSHIP_EXISTS" -> HttpStatus.CONFLICT;
+            case "FRIEND_ALREADY_EXIST" -> HttpStatus.CONFLICT;
+            case "FRIEND_CANNOT_BE_ADDED" -> HttpStatus.BAD_REQUEST;
+            case "FRIEND_CANNOT_FOUND" -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.BAD_REQUEST;
         };
 
